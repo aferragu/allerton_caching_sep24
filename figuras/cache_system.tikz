@@ -1,0 +1,16 @@
+\resizebox{\columnwidth}{!}{
+\begin{tikzpicture}
+				\node (lambda) at (0,0) {$\lambda$};
+				\node[draw,circle] (cache) at (2,0) {Cache};
+				\node[draw,rectangle, fill=verdecito!20!white] (file1) at (5,2) {\includegraphics[width=.5cm]{figuras/file.png} File 1};
+				\node[draw,rectangle,fill=rojito!20!white] (file2) at (5,1) {\includegraphics[width=.5cm]{figuras/file.png} File 2};
+				\node[draw,rectangle, fill=verdecito!20!white] (file3) at (5,0) {\includegraphics[width=.5cm]{figuras/file.png} File 3};
+				\node (dots) at (5,-1) {$\vdots$};
+				\node[draw,rectangle, fill=rojito!20!white] (fileN) at (5,-2) {\includegraphics[width=.5cm]{figuras/file.png} File $N$};
+
+				\draw[->,very thick, azulcito] (lambda) -- (cache);
+				\draw[->,very thick, dashed, verdecito] (file1.west)--(cache);
+				\draw[->,very thick, rojito] (file2.west)--(cache);
+				\draw[->,very thick, dashed, verdecito] (file3.west)--(cache);
+				\draw[->,very thick, rojito] (fileN.west)--(cache);
+\end{tikzpicture}}
