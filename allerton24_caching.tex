@@ -256,9 +256,9 @@
 			\draw[<-,very thick, azulcito] (4,.6) -- (4,0) node[below] {$\tau_{2}$};
 			\draw[-,thick] (0,-.1) node[below] {$0$} -- (0,0.1);
 			 
-			\draw[->, very thick, verdecito] (2,.3) -- node[midway, above, anchor=south] {$X\sim F$} (4,.3);
+			\draw[->, very thick, verdecito] (2,.3) -- node[midway, above, anchor=south] {$\sim F_0$} (4,.3);
 	
-			\draw<2->[->, very thick, rojito] (0,.3) -- node[midway, above, anchor=south] {$\hat{X}\sim \hat{F}$} (-1.5,.3);
+			\draw<2->[->, very thick, rojito] (0,.3) -- node[midway, above, anchor=south] {$\sim F$} (-1.5,.3);
 	
 		\end{tikzpicture}
 	
@@ -269,12 +269,12 @@
 	\begin{itemize}
 		\item \alert{Inter-arrival distribution:} Typical distance between points...
 		 		\begin{equation*}
-					X \sim F(t), \quad E[X] = 1/\lambda 
+					\tau_{k+1}-\tau_k \sim F(t), \quad E[\tau_{k+1}-\tau_k] = 1/\lambda 
 				\end{equation*} 
 		\pause
 		\item \alert{Age distribution:} Distance from the last point in the current interval (sampling bias)!
 				\begin{equation*}
-					\hat{X} \sim \hat{F}(t) := \lambda \int_0^t 1-F(s)ds,
+					F(t) := \lambda \int_0^t 1-F_0(s)ds,
 				\end{equation*}
 	\end{itemize}
 
@@ -303,56 +303,56 @@
 	\input{figuras/ttl.tikz}
 \end{frame}
 
-\begin{frame}{Hit and occupation probabilities}
+% \begin{frame}{Hit and occupation probabilities}
 
-	Focus on a single item $i$:
+% 	Focus on a single item $i$:
 
-	\bigskip
+% 	\bigskip
 
-	\begin{itemize}
+% 	\begin{itemize}
 
-		\item \alert{Hit probability:} prob. that \alert{next request} is still stored before timer expires:
-			\begin{equation*}
-				P(X_i<T_i) = F_i(T)
-			\end{equation*}
+% 		\item \alert{Hit probability:} prob. that \alert{next request} is still stored before timer expires:
+% 			\begin{equation*}
+% 				P(X_i<T_i) = F_i(T)
+% 			\end{equation*}
 		
-		\item \alert{Memory usage:} prob. that item is stored at a random point in time, i.e. prob. that timer \alert{has not expired} since the last request:
-		\begin{equation*}
-			P(\hat{X}_i<T_i) = \hat{F}_i(T)
-		\end{equation*}
+% 		\item \alert{Memory usage:} prob. that item is stored at a random point in time, i.e. prob. that timer \alert{has not expired} since the last request:
+% 		\begin{equation*}
+% 			P(\hat{X}_i<T_i) = \hat{F}_i(T)
+% 		\end{equation*}
 	 
-	\end{itemize}
+% 	\end{itemize}
 
-\end{frame}
+% \end{frame}
 
 
-\begin{frame}{Choosing the optimal timers}
+% \begin{frame}{Choosing the optimal timers}
 
-	Requests come from independent sources with intensities $\lambda_i$ and inter-arrival distribution $F_i$:
+% 	Requests come from independent sources with intensities $\lambda_i$ and inter-arrival distribution $F_i$:
 
-	\vfill
+% 	\vfill
 
-	\begin{problem}[Optimal TTL policy]
-		Choose timers $T_i\geqslant 0$ such that:
-		\begin{equation*}
-			\max_{T_i\geqslant 0} \sum_i \lambda_i F_i (T_i)
-		\end{equation*}
-		subject to:
-		\begin{equation*}
-			\sum_i \hat{F}_i(T_i) \leqslant C
-		\end{equation*}
-	\end{problem}
+% 	\begin{problem}[Optimal TTL policy]
+% 		Choose timers $T_i\geqslant 0$ such that:
+% 		\begin{equation*}
+% 			\max_{T_i\geqslant 0} \sum_i \lambda_i F_i (T_i)
+% 		\end{equation*}
+% 		subject to:
+% 		\begin{equation*}
+% 			\sum_i \hat{F}_i(T_i) \leqslant C
+% 		\end{equation*}
+% 	\end{problem}
 
-	\vfill
-	\alert{Remark:} non-convex non-linear program. But it can be solved by a change of variables!!! [Ferragut et al. -- QUESTA -- 2018].
-\end{frame}
+% 	\vfill
+% 	\alert{Remark:} non-convex non-linear program. But it can be solved by a change of variables!!! [Ferragut et al. -- QUESTA -- 2018].
+% \end{frame}
 
 \begin{frame}{Structure of the optimal caching policy}
 
 	\begin{itemize}
- 	\item The crucial magnitude is the \alert{hazard rate} of $F$:
+ 	\item The crucial magnitude is the \alert{hazard rate} of $F_0$:
 	\begin{equation*}
-		\eta(t) := \frac{f(t)}{1-F(t)}
+		\eta(t) := \frac{f_0(t)}{1-F_0(t)}
 	\end{equation*}
 	\item Likelihood of a request at time $t$, given the current interval has age $t$.
 	\end{itemize}
@@ -362,7 +362,7 @@
 
 	\begin{theorem}[F', Rodriguez, Paganini -- 2016]
 
-		If the $F_i$ have \alert{decreasing hazard rates}, then the optimal TTL policy satisfies:
+		If the $F_0^{(i)}$ have \alert{decreasing hazard rates}, then the optimal TTL policy satisfies:
 			\begin{equation*}
 				\eta_i (T_i^*) \geqslant \theta^*,
 			   \end{equation*}
@@ -635,9 +635,9 @@
 		
 		  \draw[->,very thick, rojito] (1,1) -- (1,0);
 		  \draw [->,thick,azulcito] (1.1,1.1) to [out=20,in=160] (3.4,1.1) node [above right] {$T$};
-		  \draw [->,thick,black] (1.1,.2) -- (3.9,.2) node [above, midway] {$X \sim F$};
+		  \draw [->,thick,black] (1.1,.2) -- (3.9,.2) node [above, midway] {$\sim F$};
 		  \draw[->,very thick, verdecito] (4,1) -- (4,0);
-		  \node[azulcito,below] at (3,-.5) {Hit probability $=1-F(T)$};
+		  \node[azulcito,below] at (3,-.5) {Hit probability $=1-F_0(T)$};
 		  \end{tikzpicture}
 		  \end{center}
 		
@@ -662,9 +662,9 @@
 		
 		  \draw[->,very thick, rojito] (1,1) -- (1,0);
 		  \draw [->,thick,azulcito] (1.1,1.1) to [out=20,in=160] (3.4,1.1) node [above right] {$T$};		 % \draw[->,very thick, rojito!20!white] (5.75,1) -- (5.75,0);
-		  \draw [<-,thick, black] (1.1,.2) -- (4.5,.2) node [above, midway] {$\hat{X}\sim\hat{F}$};
+		  \draw [<-,thick, black] (1.1,.2) -- (4.5,.2) node [above, midway] {$\sim\hat{F}$};
 		  
-		  \node[azulcito,below] at (3,-.5) {Avg. occupation $= 1-\hat{F}(T)$};
+		  \node[azulcito,below] at (3,-.5) {Avg. occupation $= 1-F(T)$};
 		\end{tikzpicture}
 		\end{center}
 		
@@ -694,28 +694,27 @@
 		\begin{problem}[Optimal pre-fetching policy]
 			Choose timers $T_i\geqslant 0$ such that:
 			\begin{equation*}
-				\min_{T_i\geqslant 0} \sum_i \lambda_i F_i(T_i)
+				\min_{T_i\geqslant 0} \sum_i \lambda_i F_0^{(i)}(T_i)
 			\end{equation*}
 			subject to:
 			\begin{equation*}
-				\sum_i \hat{F}(T_i) \geqslant N-C
+				\sum_i \hat{F^{(i)}}(T_i) \geqslant N-C
 			\end{equation*}
 		\end{problem}		
 	}
 	\vfill
 	\pause
-	\alert{Remark:} we can use the same change of variables again!
 \end{frame}
 
 \begin{frame}{Choosing the optimal timers}{Change of variables}
 	
-	\begin{myitem}[2em]
-	\item Apply the change of variables $u_i = \hat{F}_i(T_i)$. 
+	\begin{myitem}[1.5em]
+	\item Apply the change of variables $u_i = F^{(i)}(T_i)$. 
 	\item Note that $u_i$ is the probability of \alert{not being stored}. 
 	
 	\item The problem becomes:
 	\begin{equation*}
-		\min_{u_i \in [0,1]} \sum_i \lambda_i F_i(\hat{F}^{-1}_i(u_i))
+		\min_{u_i \in [0,1]} \sum_i \lambda_i \left[F_0^{(i)} \circ (F^{(i)})^{-1}\right](u_i)
 	\end{equation*}
 	subject to:
 	\begin{equation*}
@@ -731,7 +730,7 @@
 	\begin{itemize}
 		\item Objective gradient:
 		\begin{equation*}
-			\frac{\partial}{\partial u_i} \lambda_i F_i\circ\hat{F}^{-1}_i(u_i) = \frac{\lambda_i f_i(\hat{F}^{-1}_i(u_i))}{\lambda_i \left(1-F_i(\hat{F}^{-1}_i(u_i))\right)} = \eta_i(\hat{F}^{-1}_i(u_i))
+			\frac{\partial}{\partial u_i} \lambda_i F^{(i)}\circ(F^{(i)})^{-1}(u_i) = \frac{\lambda_i f_0^{(i)}((F^{(i)})^{-1}(u_i))}{\lambda_i \left(1-F_0^{(i)}((F^{(i)})^{-1}(u_i))\right)} = \eta_i((F^{(i)})^{-1}(u_i))
 		\end{equation*}
 
 		\item \alert{Increasing!} $\to$ Proper convex optimization problem.
@@ -741,8 +740,8 @@
 		\item Lagrangian duality:
 		
 		\begin{align*}
-  			\mathcal{L}(u,\theta) =& \sum_{i=1}^N \lambda_i F_i\left(\hat{F}^{-1}_i(u_i)\right) + \theta \left(N-C - \sum_{i=1}^N u_i\right) \\
-			=& \sum_{i=1}^N \left[\lambda_i F_i\left(\hat{F}^{-1}_i(u_i)\right) - \theta u_i \right] + \theta (N-C).
+  			\mathcal{L}(u,\theta) =& \sum_{i=1}^N \lambda_i F_0^{(i)}\left((F^{(i)})^{-1}(u_i)\right) + \theta \left(N-C - \sum_{i=1}^N u_i\right) \\
+			=& \sum_{i=1}^N \left[\lambda_i F_0^{(i)}\left((F^{(i)})^{-1}(u_i)\right) - \theta u_i \right] + \theta (N-C).
 		\end{align*}
 
 	\end{itemize}
@@ -752,7 +751,7 @@
 \begin{frame}{Main result}
 
 	\begin{theorem}
-		If the $F_i$ satisfy the IHR property, there exists a unique threshold $\theta^*\geqslant 0$ such that the optimal timers satisfy:
+		If the $F_0^{(i)}$ satisfy the IHR property, there exists a unique threshold $\theta^*\geqslant 0$ such that the optimal timers satisfy:
 		\begin{equation*}
 		  \eta_i(T_i^*) \geqslant \theta^*,
 		\end{equation*}
@@ -765,8 +764,7 @@
 
 	\vfill
 	
-	
-	\alert{Remark:} Again the policy is a threshold policy.
+	\alert{Remark:}  The policy is also a threshold policy, like the caching case.
 
 \end{frame}
 
@@ -951,9 +949,9 @@
 
 \begin{frame}[plain]
 	\vfill
-	{\Huge \alert{Tante grazie!}}
+	{\Huge \alert{Thank you!}}
 	\vfill
-	Andres Ferragut (and Diego Goldsztajn)
+	Andres Ferragut
 
 	\smallskip
 
