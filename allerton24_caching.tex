@@ -635,7 +635,7 @@
 		
 		  \draw[->,very thick, rojito] (1,1) -- (1,0);
 		  \draw [->,thick,azulcito] (1.1,1.1) to [out=20,in=160] (3.4,1.1) node [above right] {$T$};
-		  \draw [->,thick,black] (1.1,.2) -- (3.9,.2) node [above, midway] {$\sim F$};
+		  \draw [->,thick,black] (1.1,.2) -- (3.9,.2) node [above, midway] {$\sim F_0$};
 		  \draw[->,very thick, verdecito] (4,1) -- (4,0);
 		  \node[azulcito,below] at (3,-.5) {Hit probability $=1-F_0(T)$};
 		  \end{tikzpicture}
@@ -662,7 +662,7 @@
 		
 		  \draw[->,very thick, rojito] (1,1) -- (1,0);
 		  \draw [->,thick,azulcito] (1.1,1.1) to [out=20,in=160] (3.4,1.1) node [above right] {$T$};		 % \draw[->,very thick, rojito!20!white] (5.75,1) -- (5.75,0);
-		  \draw [<-,thick, black] (1.1,.2) -- (4.5,.2) node [above, midway] {$\sim\hat{F}$};
+		  \draw [<-,thick, black] (1.1,.2) -- (4.5,.2) node [above, midway] {$\sim F$};
 		  
 		  \node[azulcito,below] at (3,-.5) {Avg. occupation $= 1-F(T)$};
 		\end{tikzpicture}
@@ -682,11 +682,11 @@
 	\begin{problem}[Optimal pre-fetching policy]
 		Choose timers $T_i\geqslant 0$ such that:
 		\begin{equation*}
-			\max_{T_i\geqslant 0} \sum_i \lambda_i (1-F_i(T_i))
+			\max_{T_i\geqslant 0} \sum_i \lambda_i (1-F_0^{(i)}(T_i))
 		\end{equation*}
 		subject to:
 		\begin{equation*}
-			\sum_i (1-\hat{F}_i(T_i)) \leqslant C
+			\sum_i (1-F^{(i)}(T_i)) \leqslant C
 		\end{equation*}
 	\end{problem}
 	}
@@ -698,7 +698,7 @@
 			\end{equation*}
 			subject to:
 			\begin{equation*}
-				\sum_i \hat{F^{(i)}}(T_i) \geqslant N-C
+				\sum_i F^{(i)}(T_i) \geqslant N-C
 			\end{equation*}
 		\end{problem}		
 	}
@@ -748,7 +748,7 @@
 
 \end{frame}
 
-\begin{frame}{Main result}
+\begin{frame}{Optimal Timer-based pre-fetching}
 
 	\begin{theorem}
 		If the $F_0^{(i)}$ satisfy the IHR property, there exists a unique threshold $\theta^*\geqslant 0$ such that the optimal timers satisfy:
@@ -779,7 +779,7 @@
 
 \vfill
 \begin{itemize}
-\item Pre-fetching improves over the static policy.
+\item Optimal pre-fetching improves over the static policy.
 \item Classical caching (e.g. LRU) is a very bad idea for regular traffic.
 \end{itemize}
 \end{frame}
