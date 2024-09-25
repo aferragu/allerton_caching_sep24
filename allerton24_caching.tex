@@ -129,9 +129,9 @@
 
 \frame[plain]{\titlepage}
 
-\begin{frame}{Outline}
-\tableofcontents
-\end{frame}
+% \begin{frame}{Outline}
+% \tableofcontents
+% \end{frame}
 
 \section{Local memory systems}
 
@@ -269,7 +269,7 @@
 	\begin{itemize}
 		\item \alert{Inter-arrival distribution:} Typical distance between points...
 		 		\begin{equation*}
-					\tau_{k+1}-\tau_k \sim F(t), \quad E[\tau_{k+1}-\tau_k] = 1/\lambda 
+					\tau_{k+1}-\tau_k \sim F_0(t), \quad E[\tau_{k+1}-\tau_k] = 1/\lambda 
 				\end{equation*} 
 		\pause
 		\item \alert{Age distribution:} Distance from the last point in the current interval (sampling bias)!
@@ -768,22 +768,6 @@
 
 \end{frame}
 
-
-\begin{frame}{Simulation example}
-	
-	Erlang ($k=5$) inter-arrival times, Zipf $\propto n^{-\beta}$ popularities, varying $\beta$, $N=10000$, $C=1000$.
-
-\begin{center}
-\includegraphics[width=0.7\textwidth]{figuras/comparison.pdf}
-\end{center}
-
-\vfill
-\begin{itemize}
-\item Optimal pre-fetching improves over the static policy.
-\item Classical caching (e.g. LRU) is a very bad idea for regular traffic.
-\end{itemize}
-\end{frame}
-
 \begin{frame}{A tale of two policies...}
 
 
@@ -894,29 +878,59 @@
 
 \end{frame}
 
+\begin{frame}{Simulation example}
+	
+	Erlang ($k=5$) inter-arrival times, Zipf $\propto n^{-\beta}$ popularities, varying $\beta$, $N=10000$, $C=1000$.
+
+\begin{center}
+\includegraphics[width=0.7\textwidth]{figuras/comparison.pdf}
+\end{center}
+
+\vfill
+\begin{itemize}
+\item Optimal pre-fetching improves over the static policy.
+\item Classical caching (e.g. LRU) is a very bad idea for regular traffic.
+\end{itemize}
+\end{frame}
+
 \section{Asymptotic optimality}
 
-\begin{frame}{Asymptotic optimality}
+\begin{frame}{Main results}{Threshold asymptotics}
 
-	\begin{itemize}
+\begin{theorem}\label{thm:main_thm}
+	Consider a family of local memory systems, indexed by $N$, with inter-request times coming from a common scale family, and memory size $C_N = cN$. Then the hazard rate threshold $\theta_N^*$ verifies:
+	\begin{equation*}
+	  \theta_N \mathop{\longrightarrow}_{N\to\infty} \theta^*,
+	\end{equation*}
+	where $\theta^*$ is the solution of:
+	\begin{equation*}\label{eq:asymptotic_threshold}
+		G_\infty(\theta^*) = 1-c, 
+	\end{equation*}
+	and $G_\infty$ depends on the age distribution $F$ and the popularity distribution $L$.
+\end{theorem}
+	  
+\end{frame}
 
-		\item Threshold policies in fact are related to recent results by [Panigrahy et al. 2022], about the optimal causal policy.
-		
-		\item They also identify a notion of \emph{hazard rate}, the stochastic intensity, as defininf the optimal policy.
+\begin{frame}{Main results}{Asymptotic miss probability}
+	\begin{theorem}
+		Consider a family of local memory systems as before, then the miss probability for system $N$, $M_N$, satisfies:
+	\begin{equation*}
+	  M_N \mathop{\longrightarrow}_{N\to\infty}\frac{\displaystyle \int_0^{\infty}\lambda G_0(\theta^*/\lambda) L(d\lambda)}{\displaystyle \int_0^\infty \lambda L(d\lambda)},
+	\end{equation*}
+	with $\theta^*$ as before, $L$ is the distribution of popularities, and $G_0$ depends on the inter-arrival distribution $F_0$. 
+  \end{theorem}
 
-	\end{itemize}
+\end{frame}
 
-	\pause
-	\vfill
+\begin{frame}{Universal optimality}
 
-	\begin{theorem}[F', Carrasco, Paganini -- In preparation -- check ArXiv soon]
-
-		Under an appropriate scaling regime, as $N\to\infty$ and $C=cN$, the optimal causal policy converges to a \alert{fixed threshold policy}. Moreover, the limit threshold $\theta^*$ coincides with its timer based counterpart.
+	\begin{theorem}[In preparation -- check ArXiv soon]
+		Under the above assumptions, the (hard to compute) \emph{optimal causal policy} converges to a \alert{fixed threshold policy} with the same limit  threshold $\theta^*$.
 	\end{theorem}
 	
 	\vfill
 	
-	Therefore, the above policies give a \alert{universal asymptotic upper bound} on caching performance.
+	Therefore, timer policies give a \alert{universal asymptotic upper bound} on caching/pre-fetching performance.
 \end{frame}
 
 \section{Final remarks}
